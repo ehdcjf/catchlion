@@ -1,0 +1,67 @@
+{
+  "name": "catchlion",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/catchlion/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/catchlion",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/catchlion/src/main.ts",
+        "tsConfig": "apps/catchlion/tsconfig.app.json",
+        "assets": ["apps/catchlion/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "catchlion:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "catchlion:build:development"
+        },
+        "production": {
+          "buildTarget": "catchlion:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/catchlion/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
