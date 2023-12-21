@@ -6,16 +6,22 @@
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
-        "outputPath": "dist/apps/catchlion",
-        "format": ["cjs"],
-        "bundle": false,
-        "main": "apps/catchlion/src/main.ts",
+        "outputPath": "apps/catchlion/dist",
+        "format": [
+          "cjs"
+        ],
+        "bundle": true,
+        "main": "apps/catchlion/src/index.ts",
         "tsConfig": "apps/catchlion/tsconfig.app.json",
-        "assets": ["apps/catchlion/src/assets"],
+        "assets": [
+          "apps/catchlion/src/assets"
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -51,15 +57,48 @@
         }
       }
     },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/catchlion",
+        "command": "node ./dist/index.js"
+      }
+    },
+    "pkg": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx pkg -t node18-linux-x64 -o apps/catchlion/out/catchlion apps/catchlion/dist/index.js"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run catchlion:build",
+          "nx run catchlion:start"
+        ],
+        "parallel": false
+      }
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=catchlion --includeDependentProjects -- nx run catchlion:dev"
+      }
+    },
+    "live": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nodemon -e ts --exec \"nx run catchlion:dev\""
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "jestConfig": "apps/catchlion/jest.config.ts"
+        "lintFilePatterns": []
       }
     }
   },
