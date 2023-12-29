@@ -21,7 +21,7 @@ import { Lantern } from './lantern';
 import { Player } from './characterController';
 
 export class Environment {
-	private lanternArray: Array<Lantern>;
+	public lanternArray: Array<Lantern>;
 	private lightmtl: PBRMetallicRoughnessMaterial;
 
 	private fireworkArray: Array<Firework> = [];
@@ -89,7 +89,7 @@ export class Environment {
 				this.scene,
 				assets.env
 					.getChildTransformNodes(false)
-					.find((m) => m.name === 'lantern' + i)
+					.find((m) => m.name == 'lantern ' + i)
 					.getAbsolutePosition(),
 				animGroupClone
 			);

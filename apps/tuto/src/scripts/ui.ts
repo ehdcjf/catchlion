@@ -49,7 +49,7 @@ export class Hud {
 	private playerUI: AdvancedDynamicTexture;
 	private pauseMenu: Rectangle;
 	private controls: Rectangle;
-	private tutorial: Rectangle;
+	public tutorial: Rectangle;
 	public hint: Rectangle;
 
 	// Mobile
@@ -95,8 +95,7 @@ export class Hud {
 
 		this.clockTime = new TextBlock();
 		this.clockTime.name = 'clock';
-		this.clockTime.textHorizontalAlignment =
-			TextBlock.HORIZONTAL_ALIGNMENT_CENTER;
+		this.clockTime.textHorizontalAlignment = TextBlock.HORIZONTAL_ALIGNMENT_CENTER;
 		this.clockTime.fontSize = '48px';
 		this.clockTime.color = 'white';
 		this.clockTime.text = '11:00';
@@ -135,10 +134,7 @@ export class Hud {
 		this.spark.top = '20px';
 		this.playerUI.addControl(this.spark);
 
-		this.pauseBtn = Button.CreateImageOnlyButton(
-			'pauseBtn',
-			'./sprites/pauseBtn.png'
-		);
+		this.pauseBtn = Button.CreateImageOnlyButton('pauseBtn', './sprites/pauseBtn.png');
 		this.pauseBtn.width = '48px';
 		this.pauseBtn.height = '86px';
 		this.pauseBtn.thickness = 0;
@@ -205,11 +201,7 @@ export class Hud {
 		this.createControlMenu();
 		this.loadSound();
 
-		if (
-			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-				navigator.userAgent
-			)
-		) {
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 			this.isMobile = true;
 
 			movementPC.isVisible = false;
@@ -234,19 +226,13 @@ export class Hud {
 			actionContainer.addControl(actionGrid);
 			this.playerUI.addControl(actionContainer);
 
-			const dashBtn = Button.CreateImageOnlyButton(
-				'dash',
-				'./sprites/aBtn.png'
-			);
+			const dashBtn = Button.CreateImageOnlyButton('dash', './sprites/aBtn.png');
 			dashBtn.thickness = 0;
 			dashBtn.alpha = 0.8;
 			dashBtn.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
 			this.dashBtn = dashBtn;
 
-			const jumpBtn = Button.CreateImageOnlyButton(
-				'jump',
-				'./sprites/bBtn.png'
-			);
+			const jumpBtn = Button.CreateImageOnlyButton('jump', './sprites/bBtn.png');
 			jumpBtn.thickness = 0;
 			jumpBtn.alpha = 0.8;
 			dashBtn.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
@@ -273,10 +259,7 @@ export class Hud {
 			grid.addRowDefinition(0.5);
 			grid.addRowDefinition(0.5);
 
-			const leftBtn = Button.CreateImageOnlyButton(
-				'left',
-				'./sprites/arrowBtn.png'
-			);
+			const leftBtn = Button.CreateImageOnlyButton('left', './sprites/arrowBtn.png');
 			leftBtn.thickness = 0;
 			leftBtn.rotation = -Math.PI / 2;
 			leftBtn.color = 'white';
@@ -285,10 +268,7 @@ export class Hud {
 			leftBtn.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
 			this.leftBtn = leftBtn;
 
-			const rightBtn = Button.CreateImageOnlyButton(
-				'right',
-				'./sprites/arrowBtn.png'
-			);
+			const rightBtn = Button.CreateImageOnlyButton('right', './sprites/arrowBtn.png');
 			rightBtn.thickness = 0;
 			rightBtn.rotation = Math.PI / 2;
 			rightBtn.color = 'white';
@@ -303,10 +283,7 @@ export class Hud {
 			upBtn.color = 'white';
 			this.upBtn = upBtn;
 
-			const downBtn = Button.CreateImageOnlyButton(
-				'down',
-				'./sprites/arrowBtn.png'
-			);
+			const downBtn = Button.CreateImageOnlyButton('down', './sprites/arrowBtn.png');
 			downBtn.thickness = 0;
 			downBtn.rotation = Math.PI;
 			downBtn.color = 'white';
@@ -324,9 +301,7 @@ export class Hud {
 
 	public updateHud(): void {
 		if (!this.stopTimer && this.startTime != null) {
-			const curTime =
-				Math.floor((new Date().getTime() - this.startTime) / 1000) +
-				this.prevTime;
+			const curTime = Math.floor((new Date().getTime() - this.startTime) / 1000) + this.prevTime;
 			this.time = curTime;
 			this.clockTime.text = this.formatTime(curTime);
 		}
@@ -557,10 +532,7 @@ export class Hud {
 		title.top = '14px';
 		this.controls.addControl(title);
 
-		const backBtn = Button.CreateImageOnlyButton(
-			'back',
-			'./sprites/lanternbutton.jpeg'
-		);
+		const backBtn = Button.CreateImageOnlyButton('back', './sprites/lanternbutton.jpeg');
 		backBtn.width = '40px';
 		backBtn.height = '40px';
 		backBtn.top = '14px';
@@ -577,30 +549,14 @@ export class Hud {
 	}
 
 	private loadSound() {
-		this.pause = new Sound(
-			'pauseSong',
-			'./sounds/Snowland.wav',
-			this.scene,
-			() => { },
-			{ volume: 0.2 }
-		);
-		this.sfx = new Sound(
-			'selection',
-			'./sounds/vgmenuselect.wav',
-			this.scene,
-			() => { }
-		);
-		this.quitSfx = new Sound(
-			'quit',
-			'./sounds/Retro Event UI 13.wav',
-			this.scene,
-			() => { }
-		);
+		this.pause = new Sound('pauseSong', './sounds/Snowland.wav', this.scene, () => {}, { volume: 0.2 });
+		this.sfx = new Sound('selection', './sounds/vgmenuselect.wav', this.scene, () => {});
+		this.quitSfx = new Sound('quit', './sounds/Retro Event UI 13.wav', this.scene, () => {});
 		this.sparkWarningSfx = new Sound(
 			'sparkWarning',
 			'./sounds/Retro Water Drop 01.wav',
 			this.scene,
-			() => { },
+			() => {},
 			{ loop: true, volume: 0.5, playbackRate: 0.6 }
 		);
 	}
