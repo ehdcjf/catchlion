@@ -1,0 +1,25 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"$id": "Vite",
+	"title": "",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What name would you like to use?"
+		},
+		"projectNameAndRootFormat": {
+			"description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
+			"type": "string",
+			"default": "derived"
+		}
+	},
+	"required": [
+		"name"
+	]
+}

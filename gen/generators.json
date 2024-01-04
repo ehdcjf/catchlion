@@ -1,0 +1,9 @@
+{
+	"generators": {
+		"vite": {
+			"factory": "./src/generators/vite/generator",
+			"schema": "./src/generators/vite/schema.json",
+			"description": "vite generator"
+		}
+	}
+}
