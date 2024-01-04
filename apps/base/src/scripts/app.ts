@@ -44,6 +44,13 @@ class App {
 		const canvas = this.createCanvas();
 		this.engine = (await EngineFactory.CreateAsync(canvas, undefined)) as Engine;
 		this.scene = new Scene(this.engine);
+		const camera = new ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2.5, 15, Vector3.Zero());
+		camera.attachControl(true);
+
+		const light = new HemisphericLight('light', new Vector3(0, 0, 0));
+		light.intensity = 0.7;
+		const res = await SceneLoader.ImportMeshAsync('', './models/', 'penguin.gltf', this.scene);
+
 		await this.main();
 	}
 
@@ -51,6 +58,9 @@ class App {
 		this.engine.displayLoadingUI();
 		await this.scene.whenReadyAsync();
 		this.engine.hideLoadingUI();
+		this.engine.runRenderLoop(() => {
+			this.scene.render();
+		});
 	}
 
 	private createCanvas() {
