@@ -1,0 +1,17 @@
+{
+	"extends": ["../../.eslintrc.json"],
+	"ignorePatterns": ["!**/*"],
+	"overrides": [
+		{
+			"files": ["**/*.ts"],
+			"rules": {
+				"@typescript-eslint/no-unused-vars": 0,
+				"@typescript-eslint/no-explicit-any": 0
+			}
+		},
+		{
+			"files": ["*.js", "*.jsx"],
+			"rules": {}
+		}
+	]
+}

@@ -112,6 +112,7 @@ export async function viteGenerator(tree: Tree, schema: ViteGeneratorSchema) {
 		projectRoot,
 		options
 	);
+
 	await formatFiles(tree);
 }
 
