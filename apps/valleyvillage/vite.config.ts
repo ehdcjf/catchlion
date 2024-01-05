@@ -4,7 +4,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
 	root: __dirname,
-	cacheDir: '../node_modules/.vite/tuto',
+	cacheDir: '../../node_modules/.vite/valleyvillage',
 
 	server: {
 		port: 4200,
@@ -22,11 +22,12 @@ export default defineConfig({
 	// worker: {
 	//  plugins: [ nxViteTsPaths() ],
 	// },
-
+	publicDir: '../../public',
 	build: {
-		outDir: '../dist/tuto',
+		outDir: '../dist/valleyvillage',
 		reportCompressedSize: true,
-		assetsDir: './public',
+		// assetsDir: '../../public',
+		copyPublicDir: true,
 		commonjsOptions: {
 			transformMixedEsModules: true,
 		},
@@ -38,9 +39,7 @@ export default defineConfig({
 			dir: '../node_modules/.vitest',
 		},
 		environment: 'jsdom',
-		include: [
-			'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
-		],
+		include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 
 		reporters: ['default'],
 		coverage: {
