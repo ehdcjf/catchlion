@@ -1,0 +1,42 @@
+{
+	"name": "along",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/along/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nx/vite:build",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"outputPath": "apps/along/dist"
+			},
+			"configurations": {
+				"development": {
+					"mode": "development"
+				},
+				"production": {
+					"mode": "production"
+				}
+			}
+		},
+		"dev": {
+			"executor": "@nx/vite:dev-server",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "along:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "along:build:development",
+					"hmr": true
+				},
+				"production": {
+					"buildTarget": "along:build:production",
+					"hmr": false
+				}
+			}
+		}
+	},
+	"tags": []
+}
