@@ -1,0 +1,42 @@
+{
+	"name": "particle",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/particle/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nx/vite:build",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"outputPath": "apps/particle/dist"
+			},
+			"configurations": {
+				"development": {
+					"mode": "development"
+				},
+				"production": {
+					"mode": "production"
+				}
+			}
+		},
+		"dev": {
+			"executor": "@nx/vite:dev-server",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "particle:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "particle:build:development",
+					"hmr": true
+				},
+				"production": {
+					"buildTarget": "particle:build:production",
+					"hmr": false
+				}
+			}
+		}
+	},
+	"tags": []
+}
