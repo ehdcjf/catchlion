@@ -26,7 +26,7 @@ export default defineConfig({
 	build: {
 		outDir: '../dist/valleyvillage',
 		reportCompressedSize: true,
-		// assetsDir: '../../public',
+		// assetsDir: '../../../../public',
 		copyPublicDir: true,
 		commonjsOptions: {
 			transformMixedEsModules: true,
