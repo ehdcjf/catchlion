@@ -1,4 +1,42 @@
-# Catchlion
+# Catchlion  Babylonjs 연습
+
+
+# 설치
+```sh
+git clone https://github.com/ehdcjf/catchlion.git
+cd catchlion
+npm install
+```
+
+# 시작
+```sh
+
+npx nx dev [appName]
+# appNmae은  apps/ 폴더 하위에 있는 폴더명
+```
+
+# 앱 만들기
+```sh
+ npm run gen [appName]
+
+```
+
+
+
+# 주석이 작성된 코드
+
+### cannon  : ammojs로 탄환에 관련딘 물리 엔진을 적용하고  대포 발사 관련 애니메이션은 연습
+
+### amin2 : 애니메이션 연습
+
+
+
+
+
+
+
+
+
 
 
 
