@@ -1,0 +1,42 @@
+{
+	"name": "board2",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/board2/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nx/vite:build",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"outputPath": "apps/board2/dist"
+			},
+			"configurations": {
+				"development": {
+					"mode": "development"
+				},
+				"production": {
+					"mode": "production"
+				}
+			}
+		},
+		"dev": {
+			"executor": "@nx/vite:dev-server",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "board2:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "board2:build:development",
+					"hmr": true
+				},
+				"production": {
+					"buildTarget": "board2:build:production",
+					"hmr": false
+				}
+			}
+		}
+	},
+	"tags": []
+}

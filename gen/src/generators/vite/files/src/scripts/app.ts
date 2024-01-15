@@ -30,21 +30,33 @@ class App {
 	private async init() {
 		const canvas = document.querySelector('#gameCanvas') as HTMLCanvasElement;
 		this.engine = (await EngineFactory.CreateAsync(canvas, undefined)) as Engine;
-		this.scene = new Scene(this.engine);
-		await this.main();
+
+		this.createScene();
+		this.engine.runRenderLoop(() => {
+			if (this.scene) this.scene.render();
+		});
+		window.addEventListener('resize', () => {
+			this.engine.resize();
+		});
 	}
 
-	private async main() {
-		const camera = new ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2.5, 200, new Vector3(0, 0, 0));
-		camera.attachControl(true);
-		const light = new HemisphericLight('light', new Vector3(4, 1, 0));
+	private async createScene() {
+		this.scene = new Scene(this.engine);
+		this.setCamera();
+		this.setLight();
 
 		this.engine.displayLoadingUI();
 		await this.scene.whenReadyAsync();
 		this.engine.hideLoadingUI();
-		this.engine.runRenderLoop(() => {
-			this.scene.render();
-		});
+	}
+
+	private setCamera() {
+		const camera = new ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2.5, 200, new Vector3(0, 0, 0));
+		camera.attachControl(true);
+	}
+
+	private setLight() {
+		const light = new HemisphericLight('light', new Vector3(4, 1, 0));
 	}
 }
 
