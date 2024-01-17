@@ -1,0 +1,45 @@
+{
+	"name": "habok",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/habok/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nx/vite:build",
+			"outputs": [
+				"{options.outputPath}"
+			],
+			"defaultConfiguration": "production",
+			"options": {
+				"outputPath": "apps/habok/dist",
+				"configFile": "apps/habok/vite.config.ts"
+			},
+			"configurations": {
+				"development": {
+					"mode": "development"
+				},
+				"production": {
+					"mode": "production"
+				}
+			}
+		},
+		"dev": {
+			"executor": "@nx/vite:dev-server",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "habok:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "habok:build:development",
+					"hmr": true
+				},
+				"production": {
+					"buildTarget": "habok:build:production",
+					"hmr": false
+				}
+			}
+		}
+	},
+	"tags": []
+}
