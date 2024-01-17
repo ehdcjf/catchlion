@@ -1,3 +1,12 @@
+
+# HACK
+
+## import havok  
+
+##### Download
+[havok wasm](https://github.com/BabylonJS/havok/blob/main/packages/havok/lib/esm/HavokPhysics.wasm)
+
+
 ```ts
 private async initHavok() {
 		/**
