@@ -20,7 +20,7 @@ import * as path from 'path';
 			type: 'select',
 			name: 'worckspace',
 			message: 'Worckspace? ',
-			choices: [...packageWorkSpace, '🎉 New!'].map((v) => {
+			choices: ['🎉 New!', ...packageWorkSpace].map((v) => {
 				return {
 					title: v.split('/')[0],
 					value: v.split('/')[0],

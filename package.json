@@ -5,11 +5,12 @@
   "license": "MIT",
   "type": "module",
   "workspaces": [
+    "apps/*",
     "physics/*",
-    "animation/*",
-    "app/*"
+    "animations/*"
   ],
   "scripts": {
+    "gen": "bun gen/index.ts",
     "dev": "bunx --bun vite",
     "build:body": "bunx --bun vite build "
   },
