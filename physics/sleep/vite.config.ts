@@ -4,7 +4,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
 	root: __dirname,
-	cacheDir: '../node_modules/.vite/tuto',
+	cacheDir: '../../node_modules/.vite/sleep',
 
 	server: {
 		port: 4200,
@@ -15,7 +15,7 @@ export default defineConfig({
 		port: 4300,
 		host: 'localhost',
 	},
-
+	publicDir: '../../public',
 	plugins: [nxViteTsPaths()],
 
 	// Uncomment this if you are using workers.
@@ -24,9 +24,9 @@ export default defineConfig({
 	// },
 
 	build: {
-		outDir: '../dist/tuto',
+		outDir: '../dist/sleep',
 		reportCompressedSize: true,
-		assetsDir: './public',
+		//assetsDir: './public',
 		commonjsOptions: {
 			transformMixedEsModules: true,
 		},
@@ -44,7 +44,7 @@ export default defineConfig({
 
 		reporters: ['default'],
 		coverage: {
-			reportsDirectory: '../coverage/tuto',
+			reportsDirectory: '../coverage/sleep',
 			provider: 'v8',
 		},
 	},

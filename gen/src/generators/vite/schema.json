@@ -4,12 +4,30 @@
 	"title": "",
 	"type": "object",
 	"properties": {
-		"name": {
+		"directory": {
 			"type": "string",
 			"description": "",
 			"$default": {
 				"$source": "argv",
 				"index": 0
+			},
+			"x-prompt": "What directory name would you like to use?"
+		},
+		"index": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 1
+			},
+			"x-prompt": "index?"
+		},
+		"name": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 2
 			},
 			"x-prompt": "What name would you like to use?"
 		},

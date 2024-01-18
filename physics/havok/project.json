@@ -1,7 +1,7 @@
 {
-	"name": "along",
+	"name": "havok",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/along/src",
+	"sourceRoot": "physics/havok/src",
 	"projectType": "application",
 	"targets": {
 		"build": {
@@ -9,7 +9,7 @@
 			"outputs": ["{options.outputPath}"],
 			"defaultConfiguration": "production",
 			"options": {
-				"outputPath": "apps/along/dist"
+				"outputPath": "physics/havok/dist"
 			},
 			"configurations": {
 				"development": {
@@ -24,15 +24,15 @@
 			"executor": "@nx/vite:dev-server",
 			"defaultConfiguration": "development",
 			"options": {
-				"buildTarget": "along:build"
+				"buildTarget": "havok:build"
 			},
 			"configurations": {
 				"development": {
-					"buildTarget": "along:build:development",
+					"buildTarget": "havok:build:development",
 					"hmr": true
 				},
 				"production": {
-					"buildTarget": "along:build:production",
+					"buildTarget": "havok:build:production",
 					"hmr": false
 				}
 			}

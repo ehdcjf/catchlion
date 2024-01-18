@@ -14,26 +14,25 @@ import * as path from 'path';
 import { ViteGeneratorSchema } from './schema';
 
 async function normalizeOptions(host: Tree, options: any): Promise<any> {
-	const {
-		projectName: appProjectName,
-		projectRoot: appProjectRoot,
-		projectNameAndRootFormat,
-	} = await determineProjectNameAndRootOptions(host, {
-		name: options.name,
-		projectType: 'application',
-		directory: options.directory,
-		projectNameAndRootFormat: options.projectNameAndRootFormat,
-		callingGenerator: '@catchlion/gen:vite',
-	});
-	options.projectNameAndRootFormat = projectNameAndRootFormat;
-	options.e2eTestRunner = options.e2eTestRunner ?? 'jest';
+	const { projectNameAndRootFormat } =
+		await determineProjectNameAndRootOptions(host, {
+			name: options.name,
+			projectType: 'application',
+			directory: options.directory,
+			projectNameAndRootFormat:
+				options.projectNameAndRootFormat,
+			callingGenerator: '@catchlion/gen:vite',
+		});
 
+	options.projectNameAndRootFormat = projectNameAndRootFormat;
+	const index = (options.index as string).padStart(3, '0');
+	const appProjectRoot =
+		options.directory + '/' + index + '.' + options.name;
 	const parsedTags = options.tags
 		? options.tags.split(',').map((s) => s.trim())
 		: [];
 	return {
 		...options,
-		name: appProjectName,
 		appProjectRoot,
 		parsedTags,
 		linter: Linter.EsLint,
@@ -104,7 +103,7 @@ function addProject(tree: Tree, options: any) {
 
 export async function viteGenerator(tree: Tree, schema: ViteGeneratorSchema) {
 	const options = await normalizeOptions(tree, schema);
-	const projectRoot = `apps/${options.name}`;
+	const projectRoot = `${options.directory}/${options.name}`;
 	addProject(tree, options);
 	generateFiles(
 		tree,

@@ -178,7 +178,7 @@ class App {
 		lionNode.parent.name = 'Lion';
 
 		const lion = this.scene.getMeshByName('Lion');
-		lion.metadata = 'sculpture';
+		lion.metadata = 'piece';
 		// // console.log(chickenImportResult.meshes[1]);
 		// console.log(lion);
 		lion.scaling = new Vector3(0.3, 0.3, 0.3);
