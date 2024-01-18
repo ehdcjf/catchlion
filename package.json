@@ -14,7 +14,9 @@
         "dev": "bunx --bun vite",
         "build": "bunx --bun vite build ",
         "dev:clone": "bunx --bun vite physics/003.clone",
-        "build:clone": "bunx --bun vite build physics/003.clone"
+        "build:clone": "bunx --bun vite build physics/003.clone",
+        "dev:ottugi": "bunx --bun vite physics/004.ottugi",
+        "build:ottugi": "bunx --bun vite build physics/004.ottugi"
     },
     "dependencies": {
         "@babylonjs/core": "^6.35.0",
