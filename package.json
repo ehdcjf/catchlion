@@ -12,7 +12,7 @@
     "scripts": {
         "gen": "bun gen/index.ts",
         "dev": "bunx --bun vite",
-        "build:body": "bunx --bun vite build ",
+        "build": "bunx --bun vite build ",
         "dev:clone": "bunx --bun vite physics/003.clone",
         "build:clone": "bunx --bun vite build physics/003.clone"
     },
