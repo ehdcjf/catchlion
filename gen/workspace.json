@@ -1,6 +1,7 @@
 {
-    "apps": 0,
+    "apps": 1,
     "legacy": 0,
-    "physics": 5,
-    "animation": 3
+    "physics": 8,
+    "animation": 3,
+    "scene": 2
 }

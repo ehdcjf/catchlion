@@ -10,6 +10,7 @@ import * as path from 'path';
 	const viteTemplate = await Bun.file('./gen/vite.template').text();
 	const htmlTemplate = await Bun.file('./gen/html.template').text();
 	const appTemplate = await Bun.file('./gen/app.ts.template').text();
+	const uitsTemplate = await Bun.file('./gen/ui.ts.template').text();
 
 	const packageJson = JSON.parse(await Bun.file('./package.json').text());
 	const packageWorkSpace = packageJson.workspaces;
@@ -60,15 +61,14 @@ import * as path from 'path';
 
 	const dir = worckspace === '🎉 New!' ? directory : worckspace;
 
-	const index =
-		(workspaceJson[dir].toString() as string).padStart(3, '0') +
-		'.';
+	const index = (workspaceJson[dir].toString() as string).padStart(3, '0') + '.';
 	const modulePath = path.join(process.cwd(), dir, index + module);
 
 	mkdirSync(path.join(modulePath, 'src'), { recursive: true });
 
 	//app 파일 만들기
 	await Bun.write(path.join(modulePath, 'src', 'app.ts'), appTemplate);
+	await Bun.write(path.join(modulePath, 'src', 'ui.ts'), uitsTemplate);
 
 	//html 만들기
 	const indexHTML = htmlTemplate.replaceAll('<%= name%>', module);

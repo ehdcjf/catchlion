@@ -7,7 +7,8 @@
     "workspaces": [
         "apps/*",
         "physics/*",
-        "animations/*"
+        "animations/*",
+        "scene/*"
     ],
     "scripts": {
         "gen": "bun gen/index.ts",
@@ -16,7 +17,19 @@
         "dev:clone": "bunx --bun vite physics/003.clone",
         "build:clone": "bunx --bun vite build physics/003.clone",
         "dev:ottugi": "bunx --bun vite physics/004.ottugi",
-        "build:ottugi": "bunx --bun vite build physics/004.ottugi"
+        "build:ottugi": "bunx --bun vite build physics/004.ottugi",
+        "dev:instances": "bunx --bun vite physics/005.instances",
+        "build:instances": "bunx --bun vite build physics/005.instances",
+        "dev:Pendulum": "bunx --bun vite physics/006.Pendulum",
+        "build:Pendulum": "bunx --bun vite build physics/006.Pendulum",
+        "dev:raycast1": "bunx --bun vite physics/007.raycast1",
+        "build:raycast1": "bunx --bun vite build physics/007.raycast1",
+        "dev:observable": "bunx --bun vite scene/000.observable",
+        "build:observable": "bunx --bun vite build scene/000.observable",
+        "dev:drag": "bunx --bun vite scene/001.drag",
+        "build:drag": "bunx --bun vite build scene/001.drag",
+        "dev:animals": "bunx --bun vite apps/000.animals",
+        "build:animals": "bunx --bun vite build apps/000.animals"
     },
     "dependencies": {
         "@babylonjs/core": "^6.35.0",
@@ -30,6 +43,7 @@
     },
     "devDependencies": {
         "@types/bun": "latest",
+        "@types/prompts": "^2.4.9",
         "@typescript-eslint/eslint-plugin": "^6.9.1",
         "@typescript-eslint/parser": "^6.9.1",
         "eslint": "~8.48.0",
