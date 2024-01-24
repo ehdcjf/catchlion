@@ -1,7 +1,7 @@
 import '@babylonjs/core/Debug/debugLayer';
 import '@babylonjs/inspector';
 import '@babylonjs/loaders/glTF';
-import { Inspector } from '@babylonjs/inspector';
+
 import {
 	Engine,
 	Scene,
@@ -21,19 +21,21 @@ import {
 	PhysicsAggregate,
 	Mesh,
 	PhysicsShapeType,
+	PointLight,
 } from '@babylonjs/core';
-import { Game } from './game';
-
+import { UI } from './ui';
 
 class App {
 	private scene!: Scene;
 	private engine!: Engine;
-	private game!: Game;
+	unitVec: Vector3;
+	ui!: UI;
+	sphere!: Mesh;
 	camera!: ArcRotateCamera;
-	light!: HemisphericLight;
 
 	constructor() {
 		this.init();
+		this.unitVec = new Vector3(1, 1, 1);
 	}
 
 	private async init() {
@@ -53,40 +55,30 @@ class App {
 		this.scene = new Scene(this.engine);
 		this.setCamera();
 		this.setLight();
-		// this.scene.createDefaultEnvironment();
-		this.game = new Game(this.scene);
-		await this.game.ready();
-		Inspector.Show(this.scene, {});
+		this.ui = new UI(this.scene);
+		this.buildSphere();
+
+		// this.ui.addSimpleSlider(this.ui.main);
+
 		this.engine.displayLoadingUI();
 		await this.scene.whenReadyAsync();
 		this.engine.hideLoadingUI();
 	}
 
 	private setCamera() {
-		const camera = new ArcRotateCamera(
-			'camera',
-			Tools.ToRadians(270),
-			Tools.ToRadians(45),
-			10,
-			new Vector3(3 / 2, 0, 3 / 2 - 0.5),
-			this.scene
-		);
-
-		camera.minZ = 0.1;
-		// camera.wheelDeltaPercentage = 90;
-		camera.pinchDeltaPercentage = 40;
-		// camera.angularSensibilityX = 3000;
-		// camera.angularSensibilityY = 3000;
-		camera.upperBetaLimit = Tools.ToRadians(80);
-		camera.lowerRadiusLimit = 5;
-		camera.upperRadiusLimit = 30;
+		const camera = new ArcRotateCamera('arcCamera', 0, 0.8, 100, Vector3.Zero(), this.scene);
 		camera.attachControl(true);
 		this.camera = camera;
 	}
 
 	private setLight() {
-		const light = new HemisphericLight('light', new Vector3(4, 1, 0));
-		this.light = light;
+		const light = new PointLight('omni', new Vector3(0, 100, 100));
+	}
+
+	private buildSphere() {
+		const sphere = MeshBuilder.CreateSphere('sphere', {}, this.scene);
+		sphere.scaling = this.unitVec.scale(5);
+		this.sphere = sphere;
 	}
 }
 

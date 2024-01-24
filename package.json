@@ -8,11 +8,13 @@
         "apps/*",
         "physics/*",
         "animations/*",
-        "scene/*"
+        "scene/*",
+        "gui/*"
     ],
     "scripts": {
         "gen": "bun gen/index.ts",
         "dev": "bunx --bun vite",
+        "serve": "bun --watch ./server/index.ts",
         "build": "bunx --bun vite build ",
         "dev:clone": "bunx --bun vite physics/003.clone",
         "build:clone": "bunx --bun vite build physics/003.clone",
@@ -29,7 +31,23 @@
         "dev:drag": "bunx --bun vite scene/001.drag",
         "build:drag": "bunx --bun vite build scene/001.drag",
         "dev:animals": "bunx --bun vite apps/000.animals",
-        "build:animals": "bunx --bun vite build apps/000.animals"
+        "build:animals": "bunx --bun vite build apps/000.animals",
+        "dev:animal2": "bunx --bun vite apps/001.animal2",
+        "build:animal2": "bunx --bun vite build apps/001.animal2",
+        "dev:slider": "bunx --bun vite gui/000.slider",
+        "build:slider": "bunx --bun vite build gui/000.slider",
+        "dev:lobby": "bunx --bun vite apps/002.lobby",
+        "build:lobby": "bunx --bun vite build apps/002.lobby",
+        "dev:cc": "bunx --bun vite animations/000.cc",
+        "build:cc": "bunx --bun vite build animations/000.cc",
+        "dev:arccamera": "bunx --bun vite scene/002.arccamera",
+        "build:arccamera": "bunx --bun vite build scene/002.arccamera",
+        "dev:group": "bunx --bun vite gui/001.group",
+        "build:group": "bunx --bun vite build gui/001.group",
+        "dev:flower": "bunx --bun vite scene/003.flower",
+        "build:flower": "bunx --bun vite build scene/003.flower",
+        "dev:server": "bunx --bun vite apps/003.server",
+        "build:server": "bunx --bun vite build apps/003.server"
     },
     "dependencies": {
         "@babylonjs/core": "^6.35.0",
