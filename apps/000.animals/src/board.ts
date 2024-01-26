@@ -53,7 +53,7 @@ export const ANIMAL = {
 	],
 } as const;
 
-export class Game {
+export class Board {
 	public lion!: AbstractMesh;
 	public elephant!: AbstractMesh;
 	public giraffe!: AbstractMesh;
@@ -95,6 +95,7 @@ export class Game {
 			const hitTile = this.scene.pickWithRay(ray, (mesh) => {
 				return mesh && mesh.metadata == 'tile';
 			});
+			console.log(hitTile?.pickedMesh);
 
 			if (this.selected) {
 				// 이미 내 말이 선택 되었을 때.
@@ -339,21 +340,19 @@ export class Game {
 	}
 }
 
-
 /**
- * 서버로 부터 받는 명령은 move가 전부. 
- * 
- * 
+ * 서버로 부터 받는 명령은 move가 전부.
+ *
+ *
  * move 이후에 반드시 해야할 것은.
  * 1. target mesh의 position을 변경하기
  * 2. board 의 src 비우기
  * 3. board 의 dest로 target 집어넣기
- * 
- * 
+ *
+ *
  * if 병아리가 끝까지가면 닭으로 진화!
- * 
- * 
+ *
+ *
  * if 적이 있으면 생포.
- * 
+ *
  */
-

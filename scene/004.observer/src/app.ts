@@ -21,24 +21,16 @@ import {
 	PhysicsAggregate,
 	Mesh,
 	PhysicsShapeType,
-	PointLight,
-	AssetsManager,
-	SpriteManager,
-	Sprite,
+	Observer,
+	Observable,
 } from '@babylonjs/core';
-import { UI } from './ui';
 
 class App {
 	private scene!: Scene;
 	private engine!: Engine;
-	unitVec: Vector3;
-	ui!: UI;
-	sphere!: Mesh;
-	camera!: ArcRotateCamera;
 
 	constructor() {
 		this.init();
-		this.unitVec = new Vector3(1, 1, 1);
 	}
 
 	private async init() {
@@ -58,15 +50,25 @@ class App {
 		this.scene = new Scene(this.engine);
 		this.setCamera();
 		this.setLight();
-		this.ui = new UI(this.scene);
-		this.buildSphere();
 
-		const x = new AssetsManager();
+		const x = new Observer((e, s) => {
+			console.log(e);
+			console.log(s);
+		}, 1);
 
-		const y = x.addImageTask('flower', './sprites/flower.png');
-		console.log(y.url);
+		console.log('x.scope', x.scope);
+		console.log('x.mask', x.mask);
 
-		// this.ui.addSimpleSlider(this.ui.main);
+		const y = new Observable();
+		console.log(y._eventState);
+		console.log(y.observers);
+		const z = y.add((data) => {
+			console.log('i am z ');
+			console.log(data);
+		}, 2);
+		y.notifyObserver(z, 'tntnfktn', 2);
+
+		// y.observers
 
 		this.engine.displayLoadingUI();
 		await this.scene.whenReadyAsync();
@@ -74,19 +76,14 @@ class App {
 	}
 
 	private setCamera() {
-		const camera = new ArcRotateCamera('arcCamera', 0, 0.8, 100, Vector3.Zero(), this.scene);
+		const camera = new FreeCamera('camera', new Vector3(0, 1, 1));
+		camera.setTarget(Vector3.Zero());
 		camera.attachControl(true);
-		this.camera = camera;
 	}
 
 	private setLight() {
-		const light = new PointLight('omni', new Vector3(0, 100, 100));
-	}
-
-	private buildSphere() {
-		const sphere = MeshBuilder.CreateSphere('sphere', {}, this.scene);
-		sphere.scaling = this.unitVec.scale(5);
-		this.sphere = sphere;
+		const light = new HemisphericLight('light', Vector3.Zero());
+		light.intensity = 0.7;
 	}
 }
 

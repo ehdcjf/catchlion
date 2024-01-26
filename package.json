@@ -47,7 +47,9 @@
         "dev:flower": "bunx --bun vite scene/003.flower",
         "build:flower": "bunx --bun vite build scene/003.flower",
         "dev:server": "bunx --bun vite apps/003.server",
-        "build:server": "bunx --bun vite build apps/003.server"
+        "build:server": "bunx --bun vite build apps/003.server",
+        "dev:observer": "bunx --bun vite scene/004.observer",
+        "build:observer": "bunx --bun vite build scene/004.observer"
     },
     "dependencies": {
         "@babylonjs/core": "^6.35.0",
