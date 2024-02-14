@@ -53,12 +53,12 @@ class App {
 		this.setCamera();
 		this.setLight();
 
-		this.scene.onReadyObservable.addOnce(async () => {
-			setTimeout(() => {
-				const resumeAnim = this.scene.getAnimationGroupByName(RESUME_ANIM);
-				resumeAnim?.play();
-			}, 1500);
-		});
+		// this.scene.onReadyObservable.addOnce(async () => {
+		// 	setTimeout(() => {
+		// 		const resumeAnim = this.scene.getAnimationGroupByName(RESUME_ANIM);
+		// 		resumeAnim?.play();
+		// 	}, 1500);
+		// });
 
 		await this.loadAssetAsync();
 		await this.scene.whenReadyAsync();
@@ -68,6 +68,7 @@ class App {
 	private setCamera() {
 		const camera = new FreeCamera('camera', new Vector3(0, 6, 20));
 		camera.setTarget(Vector3.Zero());
+		camera.inputs.addMouseWheel();
 		camera.attachControl(true);
 	}
 
@@ -77,8 +78,9 @@ class App {
 	}
 
 	private async loadAssetAsync() {
-		const resume = await SceneLoader.ImportMeshAsync('', './models/', 'resume_text.glb');
+		const resume = await SceneLoader.ImportMeshAsync('', './models/', 'resume3.glb');
 		const resumeAnimation = resume.animationGroups;
+
 		const resumeAnim = new AnimationGroup(RESUME_ANIM);
 		resumeAnimation.forEach((anim) => {
 			anim.stop();

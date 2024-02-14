@@ -207,6 +207,7 @@ export class Board {
 	async ready() {
 		this.buildTable();
 		this.buildTile();
+		this.buildStore();
 		await this.loadAnimalAsync();
 		this.setInitialBoard();
 	}
@@ -248,6 +249,44 @@ export class Board {
 			this.board[i].tile = tile;
 		}
 		originTile.dispose();
+	}
+
+	private buildStore() {
+		const ground = MeshBuilder.CreateBox('table', {
+			width: 6,
+			depth: 1,
+			height: 1,
+		});
+		const groundMat = new StandardMaterial('tableMat', this.scene);
+		groundMat.diffuseTexture = new Texture('./textures/wood.jpeg');
+		ground.material = groundMat;
+		ground.receiveShadows = true;
+		ground.position = new Vector3(Grid.width / 2 - 0.5, -0.55, Grid.depth / 2 + 3.5);
+
+		const ground2 = ground.clone();
+		ground2.position = new Vector3(Grid.width / 2 - 0.5, -0.55, Grid.depth / 2 - 4.5);
+
+		const originStore = MeshBuilder.CreateBox('tile', { width: 0.85, height: 0.1, depth: 0.85 });
+		const tileMat = new StandardMaterial('tileMat', this.scene);
+		const tileTexture = new Texture('./textures/tile.jpeg');
+
+		tileTexture.vScale = 0.1;
+		tileTexture.uScale = 0.1;
+		tileTexture.uOffset = Math.random();
+		tileTexture.vOffset = Math.random();
+		tileMat.diffuseTexture = tileTexture;
+		originStore.material = tileMat;
+		originStore.receiveShadows = true;
+		originStore.metadata = 'tile';
+
+		for (let i = 0; i < 6; i++) {
+			const tile = originStore.clone('tile');
+			tile.id = `${i}`;
+			const x = i - 1.5;
+			tile.position = new Vector3(x, -0.05, -2.5);
+			this.board[i].tile = tile;
+		}
+		originStore.dispose();
 	}
 
 	public async loadAnimalAsync() {

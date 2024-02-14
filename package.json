@@ -51,7 +51,9 @@
         "dev:observer": "bunx --bun vite scene/004.observer",
         "build:observer": "bunx --bun vite build scene/004.observer",
         "dev:resume": "bunx --bun vite apps/004.resume",
-        "build:resume": "bunx --bun vite build apps/004.resume"
+        "build:resume": "bunx --bun vite build apps/004.resume",
+        "dev:pwave": "bunx --bun vite physics/008.pwave",
+        "build:pwave": "bunx --bun vite build physics/008.pwave"
     },
     "dependencies": {
         "@babylonjs/core": "^6.35.0",

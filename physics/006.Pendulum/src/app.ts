@@ -215,31 +215,31 @@ class App {
 
 		new PhysicsAggregate(box, PhysicsShapeType.BOX, { mass: 1 }, this.scene);
 
-		// const boxShape = new PhysicsShapeBox(
-		// 	Vector3.Zero(),
-		// 	Quaternion.Identity(),
-		// 	new Vector3(1, 1, 1),
-		// 	this.scene
-		// );
+		const boxShape = new PhysicsShapeBox(
+			Vector3.Zero(),
+			Quaternion.Identity(),
+			new Vector3(1, 1, 1),
+			this.scene
+		);
 
-		// const boxMat = new StandardMaterial('boxMat', this.scene);
-		// box.material = boxMat;
+		const boxMat = new StandardMaterial('boxMat', this.scene);
+		box.material = boxMat;
 
-		// if (box.getDescendants && box.getDescendants().length) {
-		// 	box.getDescendants().forEach((b: any) => {
-		// 		if (b.material) b.material = boxMat;
-		// 	});
-		// }
+		if (box.getDescendants && box.getDescendants().length) {
+			box.getDescendants().forEach((b: any) => {
+				if (b.material) b.material = boxMat;
+			});
+		}
 
-		// const boxBody = new PhysicsBody(box, PhysicsMotionType.DYNAMIC, false, this.scene);
-		// boxBody.setMassProperties({ mass: 1 });
-		// boxShape.material = { friction: 0.2, restitution: 0.3 };
+		const boxBody = new PhysicsBody(box, PhysicsMotionType.DYNAMIC, false, this.scene);
+		boxBody.setMassProperties({ mass: 1 });
+		boxShape.material = { friction: 0.2, restitution: 0.3 };
 
-		// boxBody.shape = boxShape;
+		boxBody.shape = boxShape;
 
-		// if (this.ui.viewer) {
-		// 	this.ui.viewer.showBody(box.physicsBody!);
-		// }
+		if (this.ui.viewer) {
+			this.ui.viewer.showBody(box.physicsBody!);
+		}
 
 		return box;
 	}
