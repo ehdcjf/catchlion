@@ -2,13 +2,13 @@ import '@babylonjs/core/Debug/debugLayer';
 import '@babylonjs/inspector';
 import '@babylonjs/loaders/glTF';
 import { Engine, Scene, Vector3, ArcRotateCamera, Tools, HemisphericLight } from '@babylonjs/core';
-import { Board } from '../board';
+import { Game } from '../game';
 import { AdvancedDynamicTexture, Button, Control, StackPanel } from '@babylonjs/gui';
 import { Observers } from '../observer';
 import { SceneName, type GameType } from '../const';
 
 export class GameScene extends Scene {
-	private board!: Board;
+	private board!: Game;
 	camera!: ArcRotateCamera;
 	light!: HemisphericLight;
 
@@ -29,7 +29,7 @@ export class GameScene extends Scene {
 		this.setBackButton();
 		// this.scene.createDefaultEnvironment();
 
-		this.board = new Board(this);
+		this.board = new Game(this);
 		await this.board.ready();
 	}
 

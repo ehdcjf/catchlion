@@ -27,7 +27,7 @@ class App {
 		const canvas = document.querySelector('#gameCanvas') as HTMLCanvasElement;
 		this.engine = (await EngineFactory.CreateAsync(canvas, undefined)) as Engine;
 
-		this.scene = new HomeScene(this.engine);
+		this.scene = new GameScene(this.engine, GameType.SINGLE);
 
 		// 씬 변화를 감지하는 옵저버
 		this.sceneChanger.add(async (data) => {

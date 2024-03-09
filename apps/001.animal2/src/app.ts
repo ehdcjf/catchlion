@@ -22,24 +22,23 @@ import {
 	Mesh,
 	PhysicsShapeType,
 } from '@babylonjs/core';
+import { Game } from './game';
+import { GameObserverTarget } from './const';
 
 class App {
 	private scene!: Scene;
 	private engine!: Engine;
+	game?: Game;
+	camera!: ArcRotateCamera;
+	light!: HemisphericLight;
 
 	constructor() {
 		this.init();
 	}
 
 	private async init() {
-		const canvas = document.querySelector(
-			'#gameCanvas'
-		) as HTMLCanvasElement;
-		this.engine = (await EngineFactory.CreateAsync(
-			canvas,
-			undefined
-		)) as Engine;
-
+		const canvas = document.querySelector('#gameCanvas') as HTMLCanvasElement;
+		this.engine = await EngineFactory.CreateAsync(canvas, undefined);
 		this.createScene();
 		this.engine.runRenderLoop(() => {
 			if (this.scene) this.scene.render();
@@ -53,25 +52,40 @@ class App {
 		this.scene = new Scene(this.engine);
 		this.setCamera();
 		this.setLight();
-
+		this.game = new Game(this.scene, GameObserverTarget.AI);
 		this.engine.displayLoadingUI();
 		await this.scene.whenReadyAsync();
 		this.engine.hideLoadingUI();
 	}
 
 	private setCamera() {
-		const camera = new FreeCamera('camera', new Vector3(0, 1, 1));
-		camera.setTarget(Vector3.Zero());
+		const camera = new ArcRotateCamera(
+			'camera',
+			Tools.ToRadians(270),
+			Tools.ToRadians(45),
+			10,
+			new Vector3(1, 0, 1.5),
+			this.scene
+		);
+
+		camera.minZ = 0.1;
+		camera.pinchDeltaPercentage = 40;
+		// camera.wheelDeltaPercentage = 90;
+		// camera.angularSensibilityX = 3000;
+		// camera.angularSensibilityY = 3000;
+		camera.upperBetaLimit = Tools.ToRadians(80);
+		camera.lowerRadiusLimit = 5;
+		camera.upperRadiusLimit = 30;
 		camera.attachControl(true);
+		this.camera = camera;
 	}
 
 	private setLight() {
-		const light = new HemisphericLight('light', Vector3.Zero());
-		light.intensity = 0.7;
+		const light = new HemisphericLight('light', new Vector3(4, 1, 0));
+		this.light = light;
 	}
-
-	
-
 }
 
-new App();
+window.addEventListener('DOMContentLoaded', () => {
+	new App();
+});

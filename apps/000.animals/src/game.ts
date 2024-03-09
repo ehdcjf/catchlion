@@ -16,44 +16,11 @@ import {
 	TransformNode,
 	GlowLayer,
 } from '@babylonjs/core';
-import { Grid } from './const';
+import { Grid, ANIMAL_ROUTE } from './const';
 import { Animals } from './animals';
+import { positionToLoc } from './utils';
 
-export const ANIMAL = {
-	Lion: [
-		[0, 1],
-		[0, -1],
-		[-1, 0],
-		[1, 0],
-		[1, 1],
-		[-1, -1],
-		[-1, 1],
-		[1, -1],
-	],
-	Chick: [[1, 0]],
-	Elephant: [
-		[1, 1],
-		[-1, -1],
-		[-1, 1],
-		[1, -1],
-	],
-	Giraffe: [
-		[0, 1],
-		[0, -1],
-		[-1, 0],
-		[1, 0],
-	],
-	Rooster: [
-		[0, 1],
-		[0, -1],
-		[-1, 0],
-		[1, 0],
-		[1, 1],
-		[1, -1],
-	],
-} as const;
-
-export class Board {
+export class Game {
 	public lion!: AbstractMesh;
 	public elephant!: AbstractMesh;
 	public giraffe!: AbstractMesh;
@@ -95,113 +62,63 @@ export class Board {
 			const hitTile = this.scene.pickWithRay(ray, (mesh) => {
 				return mesh && mesh.metadata == 'tile';
 			});
-			console.log(hitTile?.pickedMesh);
+			const hitAnimal = this.scene.pickWithRay(ray, (mesh) => {
+				return mesh && mesh.metadata == 'animal';
+			});
 
-			if (this.selected) {
-				// 이미 내 말이 선택 되었을 때.
+			const picked = hitAnimal?.pickedMesh
+				? positionToLoc((hitAnimal?.pickedMesh?.parent?.parent as Mesh)?.position)
+				: hitTile?.pickedMesh
+				? +hitTile?.pickedMesh?.id
+				: null;
 
-				if (!hitTile?.pickedMesh) {
-					// 타일 말고 다른 곳 누르면
-					this.selected = null; // 선택 해제
-					this.hidOverlay(); // lay 지우기
-					return;
-				}
+			console.log(picked);
+			if (picked === null) return;
 
-				// 타일 누르면
-				const target = +hitTile.pickedMesh.id;
+			// if (this.selected) {
+			// 	// 이미 내 말이 선택 되었을 때.
 
-				// 타일에  내 말이 있으면
-				if (this.board[target].animal && this.board[target].animal!.isMine()) {
-					// selected 변경
-					this.selected = this.board[target].animal!;
-					this.hidOverlay();
-					this.rayTile(this.selected);
-					return;
-					// 적의 말이 있으면?
-				}
+			// 	if (!hitTile?.pickedMesh) {
+			// 		// 타일 말고 다른 곳 누르면
+			// 		this.selected = null; // 선택 해제
+			// 		this.hidOverlay(); // lay 지우기
+			// 		return;
+			// 	}
 
-				// 타일이 비어있고, 이동 가능한 타일이면
-				if (this.isPossiblePath(target)) {
-					// 이동가능한 영역이면 이동
-					if (this.board[target].animal && this.isEnemy(target)) {
-						this.kill(target);
-					}
-					this.move(this.selected.pos, target);
-				} else {
-					// 이동 불가능하면 아무것도 안함.
-					console.log('impossible');
-				}
-			} else {
-				// 아직 내 말을 선택하지 않았을 때.
-				if (!hitTile?.pickedMesh) return; // 엉뚱한거 클릭하면 무시
-				const id = +hitTile.pickedMesh.id; // 타일을 제대로 클릭하면 pos 가져옴.
-				if (!this.board[id].animal) return; // 거기에 애니멀 없으면 무시
-				if (!this.board[id].animal?.isMine()) return; // 내 애니멀 아니면 무시
-				this.selected = this.board[id].animal!;
-				this.rayTile(this.selected);
-			}
+			// 	// 타일 누르면
+			// 	const target = +hitTile.pickedMesh.id;
+
+			// 	// 타일에  내 말이 있으면
+			// 	if (this.board[target].animal && this.board[target].animal!.isMine()) {
+			// 		// selected 변경
+			// 		this.selected = this.board[target].animal!;
+			// 		this.hidOverlay();
+			// 		// this.rayTile(this.selected);
+			// 		return;
+			// 		// 적의 말이 있으면?
+			// 	}
+
+			// 	// 타일이 비어있고, 이동 가능한 타일이면
+			// 	if (this.isPossiblePath(target)) {
+			// 		// 이동가능한 영역이면 이동
+			// 		if (this.board[target].animal && this.isEnemy(target)) {
+			// 			this.kill(target);
+			// 		}
+			// 		this.move(this.selected.pos, target);
+			// 	} else {
+			// 		// 이동 불가능하면 아무것도 안함.
+			// 		console.log('impossible');
+			// 	}
+			// } else {
+			// 아직 내 말을 선택하지 않았을 때.
+			// if (!hitTile?.pickedMesh) return; // 엉뚱한거 클릭하면 무시
+			// const id = +hitTile.pickedMesh.id; // 타일을 제대로 클릭하면 pos 가져옴.
+			// if (!this.board[id].animal) return; // 거기에 애니멀 없으면 무시
+			// if (!this.board[id].animal?.isMine()) return; // 내 애니멀 아니면 무시
+			// this.selected = this.board[id].animal!;
+			// this.rayTile(this.selected);
+			// }
 		};
-	}
-
-	private move(src: number, dest: number) {
-		// 메시 position 이동해주고.
-		this.selected!.move(dest);
-		// 시작 칸 animal 지우고.
-		this.board[src].animal = null;
-
-		// 도착 칸 animal 추가
-		this.board[dest].animal = this.selected!;
-
-		if (this.selected?.name == 'Chick' && dest > 8) {
-		}
-		// 선택 초기화
-		this.selected = null;
-		this.evolveChick(dest);
-		//ray 끄기
-		this.hidOverlay();
-	}
-
-	private kill(pos: number) {
-		const animal = this.board[pos].animal!;
-		animal.death();
-		this.board[pos].animal = null;
-	}
-
-	private capture(pos: number) {}
-
-	private evolveChick(pos: number) {
-		const target = this.board[pos].animal!;
-		const owner = target.isMine() ? 'my' : 'enemy';
-		if (target.name != 'Chick') return;
-		if (owner == 'my' && pos <= 8) return;
-		if (owner == 'enemy' && pos >= 3) return;
-		this.kill(pos);
-		this.createAnimal('Rooster', pos, owner);
-	}
-
-	private isEnemy(pos: number) {
-		return !this.board[pos].animal?.isMine();
-	}
-
-	private rayTile(animal: Animals, alpha = 0.2) {
-		const pos = animal.pos;
-		const { x, z } = animal.getGrid();
-		const name = animal.name;
-		const allPath = ANIMAL[name as keyof typeof ANIMAL]
-			.map(([dz, dx]) => {
-				return [z + dz, x + dx];
-			})
-			.filter(([z, x]) => z >= 0 && z < 4 && x >= 0 && x < 3)
-			.map(([z, x]) => z * Grid.width + x);
-
-		// yellow
-		this.showOverlay(pos, Color3.Yellow(), alpha);
-		//green
-		allPath.filter((p) => {
-			return !(this.board[p].animal && this.board[p].animal?.isMine());
-		}).forEach((p) => {
-			this.showOverlay(p, Color3.Green(), alpha);
-		});
 	}
 
 	async ready() {
@@ -266,7 +183,7 @@ export class Board {
 		const ground2 = ground.clone();
 		ground2.position = new Vector3(Grid.width / 2 - 0.5, -0.55, Grid.depth / 2 - 4.5);
 
-		const originStore = MeshBuilder.CreateBox('tile', { width: 0.85, height: 0.1, depth: 0.85 });
+		const originStore = MeshBuilder.CreateBox('store', { width: 0.85, height: 0.1, depth: 0.85 });
 		const tileMat = new StandardMaterial('tileMat', this.scene);
 		const tileTexture = new Texture('./textures/tile.jpeg');
 
@@ -277,10 +194,10 @@ export class Board {
 		tileMat.diffuseTexture = tileTexture;
 		originStore.material = tileMat;
 		originStore.receiveShadows = true;
-		originStore.metadata = 'tile';
+		originStore.metadata = 'store';
 
 		for (let i = 0; i < 6; i++) {
-			const tile = originStore.clone('tile');
+			const tile = originStore.clone('store');
 			tile.id = `${i}`;
 			const x = i - 1.5;
 			tile.position = new Vector3(x, -0.05, -2.5);
@@ -289,9 +206,11 @@ export class Board {
 		originStore.dispose();
 	}
 
+	/**
+	 *  동물 메시 불러오는 메서드
+	 * */
 	public async loadAnimalAsync() {
 		await SceneLoader.ImportMeshAsync('', './models/', 'animals.glb');
-
 		this.animals = {
 			Chick: this.loadAnimal('Chick', 0.4),
 			Rooster: this.loadAnimal('Rooster', 0.3),
@@ -299,19 +218,11 @@ export class Board {
 			Elephant: this.loadAnimal('Elephant', 0.3),
 			Giraffe: this.loadAnimal('Giraffe', 0.3),
 		};
-
-		// const gl = new GlowLayer('glow', this.scene);
-		// gl.customEmissiveColorSelector = function (mesh, subMesh, material, result) {
-
-		// 	if (mesh.name === 'CHICK.Chick.Chick') {
-		// 		console.log('xxxx');
-		// 		result.set(1, 1, 0, 1);
-		// 	} else {
-		// 		result.set(0, 0, 0, 0);
-		// 	}
-		// };
 	}
 
+	/**
+	 *  동물 메시 불러오는 메서드
+	 * */
 	private loadAnimal(name: string, scale: number): AbstractMesh {
 		const animalRoot = this.scene.getMeshByName('__root__')!.clone(name, null, true) as AbstractMesh;
 		const transformNode = this.scene.getTransformNodeByName(name) as TransformNode;
@@ -335,7 +246,7 @@ export class Board {
 		return animalRoot as AbstractMesh;
 	}
 
-	private createAnimal(name: keyof typeof ANIMAL, pos: number, owner: 'my' | 'enemy') {
+	private createAnimal(name: keyof typeof ANIMAL_ROUTE, pos: number, owner: 'my' | 'enemy') {
 		const animal = new Animals(this.animals[name], pos, owner);
 		this.board[animal.pos].animal = animal;
 	}
@@ -349,6 +260,67 @@ export class Board {
 		this.createAnimal('Lion', 10, 'enemy');
 		this.createAnimal('Giraffe', 9, 'enemy');
 		this.createAnimal('Elephant', 11, 'enemy');
+	}
+
+	// private move(src: number, dest: number) {
+	// 	// 메시 position 이동해주고.
+	// 	this.selected!.move(dest);
+	// 	// 시작 칸 animal 지우고.
+	// 	this.board[src].animal = null;
+
+	// 	// 도착 칸 animal 추가
+	// 	this.board[dest].animal = this.selected!;
+
+	// 	if (this.selected?.name == 'Chick' && dest > 8) {
+	// 	}
+	// 	// 선택 초기화
+	// 	this.selected = null;
+	// 	this.evolveChick(dest);
+	// 	//ray 끄기
+	// 	this.hidOverlay();
+	// }
+
+	// private kill(pos: number) {
+	// 	const animal = this.board[pos].animal!;
+	// 	animal.death();
+	// 	this.board[pos].animal = null;
+	// }
+
+	private capture(pos: number) {}
+
+	// private evolveChick(pos: number) {
+	// 	const target = this.board[pos].animal!;
+	// 	const owner = target.isMine() ? 'my' : 'enemy';
+	// 	if (target.name != 'Chick') return;
+	// 	if (owner == 'my' && pos <= 8) return;
+	// 	if (owner == 'enemy' && pos >= 3) return;
+	// 	this.kill(pos);
+	// 	this.createAnimal('Rooster', pos, owner);
+	// }
+
+	private isEnemy(pos: number) {
+		return !this.board[pos].animal?.isMine();
+	}
+
+	private rayTile(animal: Animals, alpha = 0.2) {
+		const pos = animal.pos;
+		const { x, z } = animal.getGrid();
+		const name = animal.name;
+		const allPath = ANIMAL[name as keyof typeof ANIMAL]
+			.map(([dz, dx]) => {
+				return [z + dz, x + dx];
+			})
+			.filter(([z, x]) => z >= 0 && z < 4 && x >= 0 && x < 3)
+			.map(([z, x]) => z * Grid.width + x);
+
+		// yellow
+		this.showOverlay(pos, Color3.Yellow(), alpha);
+		//green
+		allPath.filter((p) => {
+			return !(this.board[p].animal && this.board[p].animal?.isMine());
+		}).forEach((p) => {
+			this.showOverlay(p, Color3.Green(), alpha);
+		});
 	}
 
 	positionToBoard(pos: number): Vector3 {

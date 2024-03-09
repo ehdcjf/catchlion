@@ -5,6 +5,13 @@ export const Grid = {
 
 export type AnimalNames = 'Chick' | 'Rooster' | 'Lion' | 'Giraffe' | 'Elephant';
 
+export enum Animal {
+	'Chick',
+	'Rooster',
+	'Lion',
+	'Giraffe',
+	'Elephant',
+}
 
 export enum GameType {
 	SINGLE = 0,
@@ -25,3 +32,4 @@ export type Message = {
 	cmd: string;
 	data: any;
 };
+
