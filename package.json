@@ -53,7 +53,9 @@
         "dev:resume": "bunx --bun vite apps/004.resume",
         "build:resume": "bunx --bun vite build apps/004.resume",
         "dev:pwave": "bunx --bun vite physics/008.pwave",
-        "build:pwave": "bunx --bun vite build physics/008.pwave"
+        "build:pwave": "bunx --bun vite build physics/008.pwave",
+        "dev:clserver": "bun apps/005.clserver/src/app.ts",
+        "build:clserver": "bun build apps/005.clserver/src/app.ts"
     },
     "dependencies": {
         "@babylonjs/core": "^6.35.0",
